@@ -1,33 +1,39 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
-from PyQt6.QtGui import *
+from PyQt6.QtGui import QPainter, QColor
 from PyQt6 import uic, QtGui
+from random import randint
 import sys
+
+
+class circleWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+
+        painter.setBrush(
+            QColor(255, 255, 0)
+        )
+
+        for i in range(randint(1, 50)):
+            radius = randint(10, 200)
+            painter.drawEllipse(
+                randint(0, 600), randint(0, 600), radius, radius)
+
 
 class mainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("UI.ui", self)
 
-        self.button.clicked.connect(self.funcButtonPressed)
+        self.button.clicked.connect(self.funcDrawCircles)
 
-        self.label_1.hide()
-        self.label_2.hide()
-        self.label_3.hide()
-        self.label_4.hide()
-        self.label_5.hide()
-        self.label_6.hide()
+    def funcDrawCircles(self):
+        self.circle = circleWidget()
+        self.setCentralWidget(self.circle)
 
-    def funcButtonPressed(self):
-
-        self.label_1.show()
-        self.label_2.show()
-        self.label_3.show()
-        self.label_4.show()
-        self.label_5.show()
-        self.label_6.show()
-
-        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
